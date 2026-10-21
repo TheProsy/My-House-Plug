@@ -35,6 +35,60 @@ function generateSlug(title: string): string {
   return `${base.slice(0, 60)}-${suffix}`;
 }
 
+type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
+
+async function prepareContentEdit(
+  supabase: SupabaseClient,
+  propertyId: string,
+  userId: string,
+): Promise<{ error?: string; reviewRequired?: boolean }> {
+  const { data, error } = await supabase
+    .from("properties")
+    .select("listing_status")
+    .eq("id", propertyId)
+    .eq("owner_id", userId)
+    .maybeSingle();
+
+  if (error || !data) {
+    return { error: "Listing not found." };
+  }
+
+  if (data.listing_status === "suspended") {
+    return {
+      error:
+        "This listing is suspended. Contact support before making changes to it.",
+    };
+  }
+
+  if (
+    data.listing_status === "draft" ||
+    data.listing_status === "changes_requested" ||
+    data.listing_status === "pending_review"
+  ) {
+    return { reviewRequired: false };
+  }
+
+  const { error: reviewError } = await supabase
+    .from("properties")
+    .update({ listing_status: "pending_review" })
+    .eq("id", propertyId)
+    .eq("owner_id", userId);
+
+  if (reviewError) {
+    console.error("[provider] move content to review", reviewError);
+    return { error: "We could not open this listing for review." };
+  }
+
+  revalidatePath("/provider/dashboard");
+  return { reviewRequired: true };
+}
+
+function withReviewNote(message: string, reviewRequired?: boolean): string {
+  return reviewRequired
+    ? `${message} It is back in review before it can publish again.`
+    : message;
+}
+
 export async function createProviderPropertyAction(
   _prevState: ProviderActionState,
   formData: FormData,
@@ -112,6 +166,9 @@ export async function updateProviderPropertyAction(
   }
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { error } = await supabase
     .from("properties")
     .update({
@@ -136,7 +193,9 @@ export async function updateProviderPropertyAction(
 
   revalidatePath(`/provider/properties/${propertyId}`);
   revalidatePath("/provider/dashboard");
-  return { message: "Listing details saved." };
+  return {
+    message: withReviewNote("Listing details saved.", gate.reviewRequired),
+  };
 }
 
 const allowedTransitions: Record<
@@ -285,6 +344,9 @@ export async function addUnitAction(
   }
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { error } = await supabase.from("property_units").insert({
     property_id: propertyId,
     title: parsed.data.title,
@@ -303,7 +365,7 @@ export async function addUnitAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Unit added." };
+  return { message: withReviewNote("Unit added.", gate.reviewRequired) };
 }
 
 export async function removeUnitAction(
@@ -317,6 +379,9 @@ export async function removeUnitAction(
   if (!propertyId || !unitId) return { error: "Missing unit." };
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { error } = await supabase
     .from("property_units")
     .delete()
@@ -329,7 +394,7 @@ export async function removeUnitAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Unit removed." };
+  return { message: withReviewNote("Unit removed.", gate.reviewRequired) };
 }
 
 export async function addCostAction(
@@ -358,6 +423,9 @@ export async function addCostAction(
   }
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { error } = await supabase.from("property_costs").insert({
     property_id: propertyId,
     label: parsed.data.label,
@@ -376,7 +444,7 @@ export async function addCostAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Cost added." };
+  return { message: withReviewNote("Cost added.", gate.reviewRequired) };
 }
 
 export async function removeCostAction(
@@ -390,6 +458,9 @@ export async function removeCostAction(
   if (!propertyId || !costId) return { error: "Missing cost." };
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { error } = await supabase
     .from("property_costs")
     .delete()
@@ -402,7 +473,7 @@ export async function removeCostAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Cost removed." };
+  return { message: withReviewNote("Cost removed.", gate.reviewRequired) };
 }
 
 export async function saveAmenitiesAction(
@@ -420,6 +491,9 @@ export async function saveAmenitiesAction(
     .filter((value) => value.length > 0);
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { error: deleteError } = await supabase
     .from("property_amenities")
     .delete()
@@ -447,7 +521,9 @@ export async function saveAmenitiesAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Amenities updated." };
+  return {
+    message: withReviewNote("Amenities updated.", gate.reviewRequired),
+  };
 }
 
 export async function registerPhotoAction(
@@ -458,6 +534,9 @@ export async function registerPhotoAction(
   if (!user) return { error: authError ?? "Unauthorized" };
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { count } = await supabase
     .from("property_photos")
     .select("id", { count: "exact", head: true })
@@ -476,7 +555,7 @@ export async function registerPhotoAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Photo added." };
+  return { message: withReviewNote("Photo added.", gate.reviewRequired) };
 }
 
 export async function deletePhotoAction(
@@ -499,6 +578,9 @@ export async function deletePhotoAction(
 
   if (!photo) return { error: "Photo not found." };
 
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   const { error } = await supabase
     .from("property_photos")
     .delete()
@@ -515,7 +597,7 @@ export async function deletePhotoAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Photo removed." };
+  return { message: withReviewNote("Photo removed.", gate.reviewRequired) };
 }
 
 export async function setCoverPhotoAction(
@@ -529,6 +611,9 @@ export async function setCoverPhotoAction(
   if (!propertyId || !photoId) return { error: "Missing photo." };
 
   const supabase = await createClient();
+  const gate = await prepareContentEdit(supabase, propertyId, user.id);
+  if (gate.error) return { error: gate.error };
+
   await supabase
     .from("property_photos")
     .update({ is_cover: false })
@@ -546,7 +631,9 @@ export async function setCoverPhotoAction(
   }
 
   revalidatePath(`/provider/properties/${propertyId}`);
-  return { message: "Cover photo updated." };
+  return {
+    message: withReviewNote("Cover photo updated.", gate.reviewRequired),
+  };
 }
 
 export async function confirmAvailabilityNow(
@@ -645,30 +732,47 @@ async function requestVerificationCore(
   }
 
   const supabase = await createClient();
+  const subjectType = checkType === "identity" ? "user" : "property";
+  const subjectId = checkType === "identity" ? user.id : propertyId;
 
-  if (checkType === "identity") {
-    const { error } = await supabase.from("verification_cases").insert({
-      subject_type: "user",
-      subject_id: user.id,
-      check_type: "identity",
-      status: "pending_review",
-    });
-    if (error && !error.message.includes("duplicate")) {
-      console.error("[provider] request identity verification", error);
-      return { error: "We could not open the verification case." };
-    }
-  } else {
-    if (!propertyId) return { error: "Missing listing id." };
-    const { error } = await supabase.from("verification_cases").insert({
-      subject_type: "property",
-      subject_id: propertyId,
-      check_type: checkType as "property_authorization" | "property_visit",
-      status: "pending_review",
-    });
-    if (error && !error.message.includes("duplicate")) {
-      console.error("[provider] request property verification", error);
-      return { error: "We could not open the verification case." };
-    }
+  if (!subjectId) return { error: "Missing listing id." };
+
+  const { data: activeCase, error: activeError } = await supabase
+    .from("verification_cases")
+    .select("status")
+    .eq("subject_type", subjectType)
+    .eq("subject_id", subjectId)
+    .eq("check_type", checkType as "identity" | "property_authorization" | "property_visit")
+    .in("status", ["pending_review", "more_info_required", "verified"])
+    .maybeSingle();
+
+  if (activeError) {
+    console.error("[provider] check verification status", activeError);
+    return { error: "We could not check your verification status." };
+  }
+
+  if (activeCase) {
+    return {
+      message:
+        activeCase.status === "verified"
+          ? "This check is already verified."
+          : "This check is already under review. Add any requested evidence below.",
+    };
+  }
+
+  const { error } = await supabase.from("verification_cases").insert({
+    subject_type: subjectType,
+    subject_id: subjectId,
+    check_type: checkType as "identity" | "property_authorization" | "property_visit",
+    status: "pending_review",
+  });
+
+  if (error) {
+    console.error("[provider] request verification", error);
+    return { error: "We could not open the verification case." };
+  }
+
+  if (checkType !== "identity") {
     revalidatePath(`/provider/properties/${propertyId}`);
   }
 

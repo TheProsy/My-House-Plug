@@ -15,6 +15,13 @@ export function safeRedirectPath(
   return value;
 }
 
+export function getSiteUrl(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(
+    /\/+$/,
+    "",
+  );
+}
+
 export function formatNaira(amount: number | null | undefined): string {
   if (amount === null || amount === undefined) return "—";
   return new Intl.NumberFormat("en-NG", {
@@ -22,6 +29,14 @@ export function formatNaira(amount: number | null | undefined): string {
     currency: "NGN",
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+const LAGOS_TIME_ZONE = "Africa/Lagos";
+
+export function parseLagosDateTime(value: string): Date {
+  const trimmed = value.trim();
+  const hasZone = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(trimmed);
+  return new Date(hasZone ? trimmed : `${trimmed}+01:00`);
 }
 
 export function formatRentPeriod(period: string): string {
@@ -46,6 +61,7 @@ export function formatDate(value: string | Date | null | undefined): string {
     day: "numeric",
     month: "short",
     year: "numeric",
+    timeZone: LAGOS_TIME_ZONE,
   }).format(date);
 }
 
@@ -58,6 +74,7 @@ export function formatDateTime(value: string | Date | null | undefined): string 
     year: "numeric",
     hour: "numeric",
     minute: "2-digit",
+    timeZone: LAGOS_TIME_ZONE,
   }).format(date);
 }
 

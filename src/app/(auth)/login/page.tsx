@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { AlertCircle } from "lucide-react";
 import { LoginForm } from "@/app/(auth)/login/login-form";
+import { Alert } from "@/components/ui/alert";
+import {
+  getSessionUser,
+  homePathForRoles,
+} from "@/features/authentication/queries";
 import { safeRedirectPath } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -12,11 +19,20 @@ interface LoginPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
+function firstParam(value: string | string[] | undefined): string | undefined {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = await searchParams;
-  const rawRedirect = params.redirectTo;
-  const redirectTo = Array.isArray(rawRedirect) ? rawRedirect[0] : rawRedirect;
+  const redirectTo = firstParam(params.redirectTo);
   const safeRedirect = safeRedirectPath(redirectTo) ?? undefined;
+  const errorMessage = firstParam(params.error);
+  const user = await getSessionUser();
+
+  if (user) {
+    redirect(safeRedirect ?? homePathForRoles(user.roles));
+  }
 
   return (
     <div className="space-y-6">
@@ -28,6 +44,13 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           Sign in to continue your search, enquiries, and inspections.
         </p>
       </div>
+
+      {errorMessage && (
+        <Alert variant="danger">
+          <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <span>{errorMessage}</span>
+        </Alert>
+      )}
 
       <LoginForm redirectTo={safeRedirect} />
 

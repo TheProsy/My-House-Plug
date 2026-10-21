@@ -97,7 +97,7 @@ export default async function ListPropertyPage() {
                 provider
                   ? "/provider/dashboard"
                   : user
-                    ? "/provider/dashboard"
+                    ? "/become-a-provider"
                     : "/register?type=landlord"
               }
             >

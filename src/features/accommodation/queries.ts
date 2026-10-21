@@ -77,7 +77,7 @@ export async function getCampusOptions(): Promise<CampusOption[]> {
 }
 
 export const LISTING_COLUMNS =
-  "id, slug, title, description, property_type, furnished, listing_status, availability_status, available_from, last_availability_confirmed_at, published_at, created_at, view_count, campus_id, neighbourhood_id, lat, lng, campus_name, campus_slug, university_name, neighbourhood_name, neighbourhood_slug, provider_id, provider_name, provider_avatar_url, min_rent, max_rent, unit_count, cover_photo, authorization_verified, visit_verified, provider_identity_verified";
+  "id, slug, title, description, property_type, furnished, listing_status, availability_status, available_from, last_availability_confirmed_at, published_at, created_at, view_count, campus_id, neighbourhood_id, lat, lng, campus_name, campus_slug, university_name, neighbourhood_name, neighbourhood_slug, provider_id, provider_name, provider_avatar_url, min_rent, max_rent, unit_count, cover_photo, authorization_verified, visit_verified, provider_identity_verified, rent_period";
 
 export async function getFeaturedListings(limit = 6): Promise<ListingCard[]> {
   const supabase = await createClient();
@@ -111,7 +111,12 @@ export async function getRecentListings(limit = 4): Promise<ListingCard[]> {
 export async function searchListings(
   params: SearchParams,
   pageSize = 12,
-): Promise<{ results: ListingCard[]; total: number; totalPages: number }> {
+): Promise<{
+  results: ListingCard[];
+  total: number;
+  totalPages: number;
+  error?: boolean;
+}> {
   const supabase = await createClient();
   const from = (params.page - 1) * pageSize;
   const to = from + pageSize - 1;
@@ -157,7 +162,7 @@ export async function searchListings(
     const { data, count, error } = await query.range(from, to);
     if (error) {
       console.error("[search]", error);
-      return { results: [], total: 0, totalPages: 1 };
+      return { results: [], total: 0, totalPages: 1, error: true };
     }
     const total = count ?? 0;
     return {
@@ -167,7 +172,7 @@ export async function searchListings(
     };
   } catch (error) {
     console.error("[search]", error);
-    return { results: [], total: 0, totalPages: 1 };
+    return { results: [], total: 0, totalPages: 1, error: true };
   }
 }
 

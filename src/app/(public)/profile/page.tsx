@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/spatial/surface";
 import { ProfileForm } from "@/app/(public)/profile/profile-form";
+import { ChangePasswordForm } from "@/app/(public)/profile/password-form";
 import {
   getSessionUser,
   isProvider,
@@ -103,6 +104,17 @@ export default async function ProfilePage() {
               bio: profile.bio ?? "",
             }}
           />
+        </div>
+      </section>
+
+      <section className="mt-6 rounded-2xl border border-line-soft bg-surface-2 p-5 shadow-e1">
+        <h2 className="text-base font-semibold text-ink-900">Password</h2>
+        <p className="mt-1 text-xs leading-relaxed text-ink-500">
+          Use your current password to set a new one. This also signs out other
+          sessions on shared devices.
+        </p>
+        <div className="mt-4">
+          <ChangePasswordForm />
         </div>
       </section>
 

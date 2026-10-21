@@ -1,12 +1,15 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { AlertCircle, Building2, CheckCircle2, Home, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Field } from "@/components/ui/form-field";
 import { Alert } from "@/components/ui/alert";
+import { ResendConfirmationForm } from "@/components/authentication/resend-confirmation-form";
 import {
   signUpAction,
   type AuthActionState,
@@ -51,23 +54,51 @@ function SubmitButton() {
   );
 }
 
-export function RegisterForm({ defaultType }: { defaultType: AccountType }) {
+export function RegisterForm({
+  defaultType,
+  redirectTo,
+}: {
+  defaultType: AccountType;
+  redirectTo?: string;
+}) {
   const [state, formAction] = useActionState(signUpAction, initialState);
 
   if (state.message) {
     return (
-      <Alert variant="success" className="flex-col gap-2">
-        <span className="flex items-center gap-2 font-medium">
-          <CheckCircle2 className="size-4" aria-hidden="true" />
-          Account created
-        </span>
-        <span>{state.message}</span>
-      </Alert>
+      <div className="space-y-4">
+        <Alert variant="success" className="flex-col gap-2">
+          <span className="flex items-center gap-2 font-medium">
+            <CheckCircle2 className="size-4" aria-hidden="true" />
+            Check your inbox
+          </span>
+          <span>{state.message}</span>
+        </Alert>
+
+        <ResendConfirmationForm email={state.email} redirectTo={redirectTo} />
+
+        <p className="text-center text-sm text-ink-500">
+          Already confirmed?{" "}
+          <Link
+            href={
+              redirectTo
+                ? `/login?redirectTo=${encodeURIComponent(redirectTo)}`
+                : "/login"
+            }
+            className="font-medium text-brand-700 underline-offset-4 hover:underline"
+          >
+            Sign in
+          </Link>
+        </p>
+      </div>
     );
   }
 
   return (
     <form action={formAction} className="space-y-4">
+      {redirectTo && (
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+      )}
+
       {state.error && (
         <Alert variant="danger">
           <AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
@@ -94,6 +125,7 @@ export function RegisterForm({ defaultType }: { defaultType: AccountType }) {
             inputMode="email"
             autoComplete="email"
             placeholder="you@example.com"
+            defaultValue={state.email}
             required
           />
         </Field>
@@ -111,10 +143,9 @@ export function RegisterForm({ defaultType }: { defaultType: AccountType }) {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Password" htmlFor="register-password">
-          <Input
+          <PasswordInput
             id="register-password"
             name="password"
-            type="password"
             autoComplete="new-password"
             minLength={8}
             placeholder="At least 8 characters"
@@ -122,10 +153,9 @@ export function RegisterForm({ defaultType }: { defaultType: AccountType }) {
           />
         </Field>
         <Field label="Confirm password" htmlFor="register-confirm">
-          <Input
+          <PasswordInput
             id="register-confirm"
             name="confirmPassword"
-            type="password"
             autoComplete="new-password"
             minLength={8}
             placeholder="Repeat password"
@@ -179,13 +209,13 @@ export function RegisterForm({ defaultType }: { defaultType: AccountType }) {
         />
         <span>
           I accept the{" "}
-          <a href="/terms" className="font-medium text-ink-700 underline-offset-4 hover:underline">
+          <Link href="/terms" className="font-medium text-ink-700 underline-offset-4 hover:underline">
             platform terms
-          </a>{" "}
+          </Link>{" "}
           and{" "}
-          <a href="/privacy" className="font-medium text-ink-700 underline-offset-4 hover:underline">
+          <Link href="/privacy" className="font-medium text-ink-700 underline-offset-4 hover:underline">
             privacy notice
-          </a>
+          </Link>
           , and understand that MY AGENT does not collect rent or hold deposits.
         </span>
       </label>

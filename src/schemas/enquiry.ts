@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { parseLagosDateTime } from "@/lib/utils";
 
 export const enquirySchema = z.object({
   propertyId: z.string().uuid(),
@@ -20,7 +21,7 @@ export const propertyInspectionRequestSchema = z.object({
   scheduledAt: z
     .string()
     .min(1, "Choose a date and time")
-    .refine((value) => new Date(value).getTime() > Date.now(), {
+    .refine((value) => parseLagosDateTime(value).getTime() > Date.now(), {
       message: "Choose a time in the future",
     }),
   notes: z.string().trim().max(500).optional().or(z.literal("")),
@@ -33,7 +34,7 @@ export const inspectionRequestSchema = z.object({
   scheduledAt: z
     .string()
     .min(1, "Choose a date and time")
-    .refine((value) => new Date(value).getTime() > Date.now(), {
+    .refine((value) => parseLagosDateTime(value).getTime() > Date.now(), {
       message: "Choose a time in the future",
     }),
   notes: z.string().trim().max(500).optional().or(z.literal("")),
@@ -42,7 +43,13 @@ export const inspectionRequestSchema = z.object({
 export const inspectionResponseSchema = z.object({
   inspectionId: z.string().uuid(),
   action: z.enum(["confirm", "reschedule", "decline", "complete", "cancel", "no_show"]),
-  scheduledAt: z.string().optional(),
+  scheduledAt: z
+    .string()
+    .optional()
+    .refine(
+      (value) => !value || parseLagosDateTime(value).getTime() > Date.now(),
+      { message: "Choose a time in the future" },
+    ),
   outcome: z
     .enum([
       "positive",

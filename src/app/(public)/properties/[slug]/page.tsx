@@ -92,9 +92,11 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
     : `/login?redirectTo=${redirectTo}`;
 
   const rent = listing.min_rent;
-  const rentPeriod = units[0]
-    ? formatRentPeriod(units[0].rent_period)
-    : "per year";
+  const rentPeriod = listing.rent_period
+    ? formatRentPeriod(listing.rent_period)
+    : units[0]
+      ? formatRentPeriod(units[0].rent_period)
+      : "per year";
   const priceLabel =
     listing.max_rent && rent && listing.max_rent !== rent
       ? `${formatNaira(rent)} – ${formatNaira(listing.max_rent)}`

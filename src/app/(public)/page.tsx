@@ -87,7 +87,10 @@ export default async function HomePage() {
   ]);
 
   const isAuthenticated = Boolean(user);
-  const hasListings = featured.length > 0 || recent.length > 0;
+  const recentListings = recent.filter(
+    (listing) => !featured.some((feature) => feature.id === listing.id),
+  );
+  const hasListings = featured.length > 0 || recentListings.length > 0;
 
   return (
     <>
@@ -166,7 +169,7 @@ export default async function HomePage() {
               </section>
             )}
 
-            {recent.length > 0 && (
+            {recentListings.length > 0 && (
               <section aria-labelledby="recent-heading">
                 <SectionHeading
                   eyebrow="Just added"
@@ -182,7 +185,7 @@ export default async function HomePage() {
                   }
                 />
                 <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {recent.map((listing) => (
+                  {recentListings.map((listing) => (
                     <PropertyCard
                       key={listing.id}
                       listing={listing}

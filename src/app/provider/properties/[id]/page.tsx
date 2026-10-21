@@ -119,6 +119,22 @@ export default async function ManagePropertyPage({
         </p>
       </div>
 
+      {["published", "paused", "rented", "archived", "rejected"].includes(
+        property.listing_status,
+      ) && (
+        <Alert variant="info">
+          <TriangleAlert className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+          <div>
+            <p className="font-medium">Content changes need a quick re-review.</p>
+            <p className="mt-0.5 text-xs">
+              Editing the description, photos, units, costs, or amenities moves
+              this listing back into review and hides it from search until it is
+              approved again. Availability confirmations do not.
+            </p>
+          </div>
+        </Alert>
+      )}
+
       {(property.listing_status === "draft" ||
         property.listing_status === "changes_requested") && (
         <Alert variant="info">

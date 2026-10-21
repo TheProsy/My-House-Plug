@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { ArrowLeft, ArrowRight, SearchX } from "lucide-react";
+import { ArrowLeft, ArrowRight, SearchX, TriangleAlert } from "lucide-react";
+import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { SectionHeading } from "@/components/spatial/surface";
@@ -78,9 +79,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             <div className="flex items-center gap-3">
               <FiltersSheet campuses={campuses} params={params} />
               <p className="text-sm text-ink-500">
-                <span className="font-semibold text-ink-900">{data.total}</span>{" "}
-                {data.total === 1 ? "home" : "homes"}
-                {hasFilters ? " match your filters" : " available"}
+                {data.error ? (
+                  "Search is temporarily unavailable"
+                ) : (
+                  <>
+                    <span className="font-semibold text-ink-900">
+                      {data.total}
+                    </span>{" "}
+                    {data.total === 1 ? "home" : "homes"}
+                    {hasFilters ? " match your filters" : " available"}
+                  </>
+                )}
               </p>
             </div>
             <Suspense fallback={null}>
@@ -115,7 +124,29 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </div>
           )}
 
-          {data.results.length > 0 ? (
+          {data.error ? (
+            <div className="mt-6">
+              <Alert variant="danger">
+                <TriangleAlert
+                  className="mt-0.5 size-4 shrink-0"
+                  aria-hidden="true"
+                />
+                <div>
+                  <p className="font-medium">We could not load homes just now.</p>
+                  <p className="mt-0.5 text-xs">
+                    This is a temporary problem on our side, not an empty
+                    result. Try again in a moment.
+                  </p>
+                  <Link
+                    href={buildSearchHref(params)}
+                    className="mt-2 inline-block text-xs font-medium underline underline-offset-4"
+                  >
+                    Try again
+                  </Link>
+                </div>
+              </Alert>
+            </div>
+          ) : data.results.length > 0 ? (
             <>
               <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {data.results.map((listing, index) => (

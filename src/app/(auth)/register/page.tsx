@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { RegisterForm } from "@/app/(auth)/register/register-form";
+import {
+  getSessionUser,
+  homePathForRoles,
+} from "@/features/authentication/queries";
+import { safeRedirectPath } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Create an account",
@@ -12,11 +18,22 @@ interface RegisterPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
 
-export default async function RegisterPage({ searchParams }: RegisterPageProps) {
+export default async function RegisterPage({
+  searchParams,
+}: RegisterPageProps) {
   const params = await searchParams;
   const rawType = Array.isArray(params.type) ? params.type[0] : params.type;
   const defaultType =
     rawType === "landlord" || rawType === "agent" ? rawType : "renter";
+  const rawRedirect = Array.isArray(params.redirectTo)
+    ? params.redirectTo[0]
+    : params.redirectTo;
+  const safeRedirect = safeRedirectPath(rawRedirect) ?? undefined;
+  const user = await getSessionUser();
+
+  if (user) {
+    redirect(safeRedirect ?? homePathForRoles(user.roles));
+  }
 
   return (
     <div className="space-y-6">
@@ -30,12 +47,16 @@ export default async function RegisterPage({ searchParams }: RegisterPageProps) 
         </p>
       </div>
 
-      <RegisterForm defaultType={defaultType} />
+      <RegisterForm defaultType={defaultType} redirectTo={safeRedirect} />
 
       <p className="border-t border-line-soft pt-4 text-center text-sm text-ink-500">
         Already have an account?{" "}
         <Link
-          href="/login"
+          href={
+            safeRedirect
+              ? `/login?redirectTo=${encodeURIComponent(safeRedirect)}`
+              : "/login"
+          }
           className="font-medium text-brand-700 underline-offset-4 hover:underline"
         >
           Sign in

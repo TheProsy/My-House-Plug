@@ -1183,6 +1183,7 @@ export interface Database {
           authorization_verified: VerificationStatus | null;
           visit_verified: VerificationStatus | null;
           provider_identity_verified: VerificationStatus | null;
+          rent_period: RentPeriod | null;
         };
         Relationships: [];
       };
@@ -1302,6 +1303,14 @@ export interface Database {
       can_view_verification_case: {
         Args: { target_case: string };
         Returns: boolean;
+      };
+      ensure_own_profile: {
+        Args: Record<string, never>;
+        Returns: undefined;
+      };
+      upgrade_to_provider: {
+        Args: { requested_role: AppRole };
+        Returns: undefined;
       };
       notify_user: {
         Args: {

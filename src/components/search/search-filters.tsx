@@ -106,7 +106,7 @@ export function SearchFilters({
 
       <fieldset className="space-y-1.5">
         <legend className="text-xs font-semibold uppercase tracking-wider text-ink-400">
-          Yearly budget (₦)
+          Rent budget (₦)
         </legend>
         <div className="flex items-center gap-2">
           <input
@@ -117,7 +117,7 @@ export function SearchFilters({
             step={10000}
             defaultValue={params.min ?? ""}
             placeholder="Min"
-            aria-label="Minimum yearly budget"
+            aria-label="Minimum rent budget"
             className="h-11 w-full rounded-md border border-line bg-surface-2 px-3 text-sm text-ink-900 shadow-e1 placeholder:text-ink-400"
           />
           <span className="text-ink-400">–</span>
@@ -129,7 +129,7 @@ export function SearchFilters({
             step={10000}
             defaultValue={params.max ?? ""}
             placeholder="Max"
-            aria-label="Maximum yearly budget"
+            aria-label="Maximum rent budget"
             className="h-11 w-full rounded-md border border-line bg-surface-2 px-3 text-sm text-ink-900 shadow-e1 placeholder:text-ink-400"
           />
         </div>

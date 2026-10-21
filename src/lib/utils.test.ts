@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
   daysAgo,
+  formatDateTime,
   formatNaira,
   formatRentPeriod,
   isAvailabilityStale,
+  parseLagosDateTime,
   safeRedirectPath,
   timeAgo,
 } from "@/lib/utils";
@@ -32,6 +34,26 @@ describe("formatRentPeriod", () => {
 
   it("returns an empty string for unknown periods", () => {
     expect(formatRentPeriod("per_fortnight")).toBe("");
+  });
+});
+
+describe("parseLagosDateTime", () => {
+  it("treats bare datetime-local values as West Africa Time", () => {
+    expect(parseLagosDateTime("2026-10-25T10:00").toISOString()).toBe(
+      "2026-10-25T09:00:00.000Z",
+    );
+  });
+
+  it("respects an explicit offset", () => {
+    expect(parseLagosDateTime("2026-10-25T10:00:00Z").toISOString()).toBe(
+      "2026-10-25T10:00:00.000Z",
+    );
+  });
+});
+
+describe("formatDateTime", () => {
+  it("renders in Africa/Lagos regardless of server timezone", () => {
+    expect(formatDateTime("2026-10-25T09:00:00Z")).toContain("10:00");
   });
 });
 

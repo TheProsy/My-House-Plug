@@ -135,7 +135,7 @@ export default async function NotificationsPage() {
 
       <p className="mt-6 flex items-center gap-1.5 text-xs text-ink-400">
         <Bell className="size-3.5" aria-hidden="true" />
-        Notifications older than 50 entries are archived automatically.
+        Showing your latest 50 notifications.
       </p>
     </div>
   );

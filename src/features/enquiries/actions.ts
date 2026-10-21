@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { formatDateTime, parseLagosDateTime } from "@/lib/utils";
 import { getSessionUser, isStaff } from "@/features/authentication/queries";
 import { getOpenEnquiryForProperty } from "@/features/enquiries/queries";
 import {
@@ -160,7 +161,22 @@ export async function requestInspectionAction(
     leadStage = "inspection_scheduled";
   }
 
-  const scheduledAt = new Date(parsed.data.scheduledAt).toISOString();
+  const scheduledAt = parseLagosDateTime(parsed.data.scheduledAt).toISOString();
+
+  const { data: openInspection } = await supabase
+    .from("inspections")
+    .select("id")
+    .eq("enquiry_id", enquiryId)
+    .in("status", ["requested", "confirmed", "rescheduled"])
+    .limit(1)
+    .maybeSingle();
+
+  if (openInspection) {
+    return {
+      error:
+        "You already have an inspection request for this home. Reschedule or cancel it from your inspections page.",
+    };
+  }
 
   const { error: inspectionError } = await supabase.from("inspections").insert({
     enquiry_id: enquiryId,
@@ -186,7 +202,7 @@ export async function requestInspectionAction(
     target_user: providerId,
     notice_type: "inspection_requested",
     notice_title: "New inspection request",
-    notice_body: `Requested for ${new Date(scheduledAt).toLocaleString("en-NG")}.`,
+    notice_body: `Requested for ${formatDateTime(scheduledAt)}.`,
     notice_href: `/provider/enquiries/${enquiryId}`,
   });
 
@@ -478,7 +494,7 @@ export async function respondToInspectionAction(
     if (!parsed.data.scheduledAt) {
       return { error: "Pick a new date and time." };
     }
-    const nextTime = new Date(parsed.data.scheduledAt);
+    const nextTime = parseLagosDateTime(parsed.data.scheduledAt);
     if (nextTime.getTime() <= Date.now()) {
       return { error: "Choose a time in the future." };
     }
@@ -530,12 +546,12 @@ export async function respondToInspectionAction(
     confirm: {
       type: "inspection_confirmed" as const,
       title: "Inspection confirmed",
-      body: `Confirmed for ${new Date(updates.scheduled_at ?? inspection.scheduled_at).toLocaleString("en-NG")}.`,
+      body: `Confirmed for ${formatDateTime(updates.scheduled_at ?? inspection.scheduled_at)}.`,
     },
     reschedule: {
       type: "inspection_rescheduled" as const,
       title: "Inspection rescheduled",
-      body: `New time: ${new Date(updates.scheduled_at ?? inspection.scheduled_at).toLocaleString("en-NG")}.`,
+      body: `New time: ${formatDateTime(updates.scheduled_at ?? inspection.scheduled_at)}.`,
     },
     decline: {
       type: "inspection_cancelled" as const,

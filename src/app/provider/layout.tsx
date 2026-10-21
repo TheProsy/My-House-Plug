@@ -28,13 +28,12 @@ export default async function ProviderLayout({
           </h1>
           <p className="text-sm leading-relaxed text-ink-500">
             Your account is a renter account, so it cannot manage listings.
-            Create a landlord or agent account, or contact support if you
-            should already have access.
+            You can upgrade this same account to list as a landlord or agent.
           </p>
         </div>
         <div className="flex gap-3">
           <Button asChild>
-            <Link href="/register?type=landlord">Create provider account</Link>
+            <Link href="/become-a-provider">Become a provider</Link>
           </Button>
           <Button asChild variant="secondary">
             <Link href="/support">Contact support</Link>

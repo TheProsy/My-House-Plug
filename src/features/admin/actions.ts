@@ -142,6 +142,7 @@ export async function reviewListingAction(
 }
 
 export async function moderateListingAction(
+  _prevState: AdminActionState,
   formData: FormData,
 ): Promise<AdminActionState> {
   const { error: authError, user } = await requireStaff();
@@ -191,6 +192,7 @@ export async function moderateListingAction(
     });
 
     revalidatePath("/admin/listings");
+    revalidatePath(`/admin/listings/${property.id}`);
     revalidatePath("/admin/dashboard");
     return { message: "Listing suspended." };
   }
@@ -227,6 +229,7 @@ export async function moderateListingAction(
     });
 
     revalidatePath("/admin/listings");
+    revalidatePath(`/admin/listings/${property.id}`);
     revalidatePath("/admin/dashboard");
     return { message: "Listing reinstated." };
   }

@@ -22,10 +22,22 @@ function CaseStatus({ record }: { record: Tables<"verification_cases"> | null })
     return <Badge variant="neutral">Not requested</Badge>;
   }
   return (
-    <Badge variant={record.status === "verified" ? "brand" : "neutral"}>
+    <Badge
+      variant={
+        record.status === "verified"
+          ? "brand"
+          : record.status === "rejected"
+            ? "danger"
+            : "neutral"
+      }
+    >
       {VERIFICATION_STATUS_LABELS[record.status]}
     </Badge>
   );
+}
+
+function canRequestAgain(record: Tables<"verification_cases"> | null): boolean {
+  return record?.status === "rejected" || record?.status === "expired";
 }
 
 export default async function ProviderVerificationPage() {
@@ -85,6 +97,15 @@ export default async function ProviderVerificationPage() {
                   </div>
                 </div>
               )}
+              {canRequestAgain(identityCase) && (
+                <ActionButton
+                  action={requestVerificationNow}
+                  fields={{ checkType: "identity" }}
+                  successFallback="Identity verification requested again."
+                >
+                  Request a new identity check
+                </ActionButton>
+              )}
             </>
           ) : (
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -142,7 +163,8 @@ export default async function ProviderVerificationPage() {
                     </span>
                     <div className="flex items-center gap-2">
                       <CaseStatus record={property.authorizationCase} />
-                      {!property.authorizationCase && (
+                      {(!property.authorizationCase ||
+                        canRequestAgain(property.authorizationCase)) && (
                         <ActionButton
                           variant="ghost"
                           size="sm"
@@ -153,7 +175,7 @@ export default async function ProviderVerificationPage() {
                           }}
                           successFallback="Authorization check requested."
                         >
-                          Request
+                          {property.authorizationCase ? "Request again" : "Request"}
                         </ActionButton>
                       )}
                     </div>
@@ -166,7 +188,7 @@ export default async function ProviderVerificationPage() {
                     </span>
                     <div className="flex items-center gap-2">
                       <CaseStatus record={property.visitCase} />
-                      {!property.visitCase && (
+                      {(!property.visitCase || canRequestAgain(property.visitCase)) && (
                         <ActionButton
                           variant="ghost"
                           size="sm"
@@ -177,7 +199,7 @@ export default async function ProviderVerificationPage() {
                           }}
                           successFallback="Visit check requested."
                         >
-                          Request
+                          {property.visitCase ? "Request again" : "Request"}
                         </ActionButton>
                       )}
                     </div>

@@ -47,12 +47,16 @@ insert into public.amenities (key, label, category, icon) values
 on conflict (key) do nothing;
 
 -- Demo accounts
+-- renter@ / renter2@ / landlord@ / agent@ / admin@ / verifier@
+-- Password for all: DemoPass123!
 do $$
 declare
   demo_agent uuid := '11111111-1111-4111-8111-111111111111';
   demo_landlord uuid := '22222222-2222-4222-8222-222222222222';
   demo_renter uuid := '33333333-3333-4333-8333-333333333333';
   demo_renter_two uuid := '44444444-4444-4444-8444-444444444444';
+  demo_admin uuid := '55555555-5555-4555-8555-555555555555';
+  demo_verifier uuid := '66666666-6666-4666-8666-666666666666';
 begin
   if not exists (select 1 from auth.users where id = demo_agent) then
     insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, recovery_token, email_change_token_new, email_change)
@@ -81,6 +85,26 @@ begin
     insert into auth.identities (id, user_id, identity_data, provider, provider_id, last_sign_in_at, created_at, updated_at)
     values (gen_random_uuid(), demo_renter_two, jsonb_build_object('sub', demo_renter_two::text, 'email', 'renter2@demo.myagent.ng'), 'email', demo_renter_two::text, now(), now(), now());
   end if;
+
+  if not exists (select 1 from auth.users where id = demo_admin) then
+    insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, recovery_token, email_change_token_new, email_change)
+    values (demo_admin, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'admin@demo.myagent.ng', crypt('DemoPass123!', gen_salt('bf')), now(), '{"provider":"email","providers":["email"]}', '{"full_name":"Demo Admin","account_type":"renter"}', now(), now(), '', '', '', '');
+    insert into auth.identities (id, user_id, identity_data, provider, provider_id, last_sign_in_at, created_at, updated_at)
+    values (gen_random_uuid(), demo_admin, jsonb_build_object('sub', demo_admin::text, 'email', 'admin@demo.myagent.ng'), 'email', demo_admin::text, now(), now(), now());
+  end if;
+
+  if not exists (select 1 from auth.users where id = demo_verifier) then
+    insert into auth.users (id, instance_id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, recovery_token, email_change_token_new, email_change)
+    values (demo_verifier, '00000000-0000-0000-0000-000000000000', 'authenticated', 'authenticated', 'verifier@demo.myagent.ng', crypt('DemoPass123!', gen_salt('bf')), now(), '{"provider":"email","providers":["email"]}', '{"full_name":"Demo Verifier","account_type":"renter"}', now(), now(), '', '', '', '');
+    insert into auth.identities (id, user_id, identity_data, provider, provider_id, last_sign_in_at, created_at, updated_at)
+    values (gen_random_uuid(), demo_verifier, jsonb_build_object('sub', demo_verifier::text, 'email', 'verifier@demo.myagent.ng'), 'email', demo_verifier::text, now(), now(), now());
+  end if;
+
+  insert into public.user_roles (user_id, role) values (demo_admin, 'admin')
+  on conflict (user_id, role) do nothing;
+
+  insert into public.user_roles (user_id, role) values (demo_verifier, 'verifier')
+  on conflict (user_id, role) do nothing;
 end $$;
 
 -- Listings

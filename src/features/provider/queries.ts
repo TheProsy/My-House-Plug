@@ -190,6 +190,8 @@ export async function getProviderVerificationOverview(
           .eq("subject_type", "user")
           .eq("subject_id", ownerId)
           .eq("check_type", "identity")
+          .order("created_at", { ascending: false })
+          .limit(1)
           .maybeSingle(),
       null as Tables<"verification_cases"> | null,
     ),
@@ -206,7 +208,8 @@ export async function getProviderVerificationOverview(
           .from("verification_cases")
           .select("*")
           .eq("subject_type", "property")
-          .in("subject_id", propertyIds),
+          .in("subject_id", propertyIds)
+          .order("created_at", { ascending: false }),
       [] as Tables<"verification_cases">[],
     )) as Tables<"verification_cases">[];
   }

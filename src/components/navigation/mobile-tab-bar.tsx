@@ -26,8 +26,7 @@ const tabs = [
     match: (path: string) =>
       path.startsWith("/profile") ||
       path.startsWith("/enquiries") ||
-      path.startsWith("/inspections") ||
-      path.startsWith("/settings"),
+      path.startsWith("/inspections"),
   },
 ];
 

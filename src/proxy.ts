@@ -39,6 +39,7 @@ export async function proxy(request: NextRequest) {
     path.startsWith("/notifications") ||
     path.startsWith("/report") ||
     path.startsWith("/roommates") ||
+    path.startsWith("/become-a-provider") ||
     path.startsWith("/provider") ||
     path.startsWith("/admin");
 

@@ -9,7 +9,7 @@ import {
 } from "@/components/property/verification-badges";
 import { PROPERTY_TYPE_LABELS } from "@/lib/constants";
 import { propertyPhotoUrl } from "@/lib/storage";
-import { formatNaira } from "@/lib/utils";
+import { formatNaira, formatRentPeriod } from "@/lib/utils";
 import type { ListingCard } from "@/features/accommodation/queries";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +29,9 @@ export function PropertyCard({
   className,
 }: PropertyCardProps) {
   const rent = listing.min_rent;
+  const rentPeriod = listing.rent_period
+    ? formatRentPeriod(listing.rent_period)
+    : "";
   const shared = listing.unit_count > 1;
 
   return (
@@ -71,7 +74,7 @@ export function PropertyCard({
             <p className="text-lg font-semibold tracking-tight text-ink-900">
               {formatNaira(rent)}
               <span className="ml-1 text-xs font-normal text-ink-400">
-                {rent ? "/ year" : "rent not set"}
+                {rent ? rentPeriod : "rent not set"}
               </span>
             </p>
             <Link

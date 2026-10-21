@@ -74,7 +74,7 @@ export function HeroSearch({ campuses }: { campuses: CampusOption[] }) {
         <div className="space-y-1.5">
           <span className="flex items-center gap-1.5 px-1 text-xs font-medium text-ink-500">
             <Wallet className="size-3.5" aria-hidden="true" />
-            Budget per year (₦)
+            Budget (₦)
           </span>
           <div className="flex items-center gap-2">
             <input
@@ -84,7 +84,7 @@ export function HeroSearch({ campuses }: { campuses: CampusOption[] }) {
               min={0}
               step={10000}
               placeholder="Min"
-              aria-label="Minimum budget per year"
+              aria-label="Minimum rent budget"
               className="h-12 w-full rounded-xl border border-line bg-surface-2 px-3 text-sm text-ink-900 shadow-e1 placeholder:text-ink-400"
             />
             <span className="text-ink-400">–</span>
@@ -95,7 +95,7 @@ export function HeroSearch({ campuses }: { campuses: CampusOption[] }) {
               min={0}
               step={10000}
               placeholder="Max"
-              aria-label="Maximum budget per year"
+              aria-label="Maximum rent budget"
               className="h-12 w-full rounded-xl border border-line bg-surface-2 px-3 text-sm text-ink-900 shadow-e1 placeholder:text-ink-400"
             />
           </div>

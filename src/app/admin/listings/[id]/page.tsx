@@ -4,6 +4,7 @@ import { ArrowLeft, ExternalLink, ShieldCheck, User } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PropertyImage } from "@/components/property/property-image";
 import { ReviewListingForm } from "@/components/admin/review-listing-form";
+import { ListingModerationForm } from "@/components/admin/listing-moderation-form";
 import { ListingStatusBadge } from "@/components/provider/listing-status-badge";
 import { getListingForReview } from "@/features/admin/queries";
 import {
@@ -235,7 +236,14 @@ export default async function AdminListingDetailPage({
             )}
           </section>
 
-          <ReviewListingForm listingId={property.id} />
+          {property.listing_status === "pending_review" ? (
+            <ReviewListingForm listingId={property.id} />
+          ) : null}
+
+          <ListingModerationForm
+            listingId={property.id}
+            status={property.listing_status}
+          />
         </div>
       </div>
     </div>

@@ -13,6 +13,7 @@ import type {
 export const SITE_NAME = "MY AGENT";
 export const SITE_TAGLINE = "Find your place. Know the cost. Move with confidence.";
 export const AVAILABILITY_STALE_DAYS = 14;
+export const TERMS_VERSION = "2026-10";
 
 export const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
   single_room: "Single room",
