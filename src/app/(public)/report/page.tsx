@@ -12,7 +12,7 @@ import { getReportableProperty } from "@/features/reports/queries";
 export const metadata: Metadata = {
   title: "Report a listing",
   description:
-    "Report a suspicious, misleading, or unsafe listing to the MY AGENT trust and safety team.",
+    "Report a suspicious, misleading, or unsafe listing to the My House Plug trust and safety team.",
 };
 
 export default async function ReportPage({

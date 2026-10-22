@@ -4,7 +4,7 @@ import { ResetPasswordForm } from "@/app/(auth)/reset-password/reset-password-fo
 
 export const metadata: Metadata = {
   title: "Choose a new password",
-  description: "Set a new password for your MY AGENT account.",
+  description: "Set a new password for your My House Plug account.",
 };
 
 export default function ResetPasswordPage() {

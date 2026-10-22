@@ -76,7 +76,7 @@ export function EnquiryForm({
       <SubmitButton />
 
       <p className="text-xs leading-relaxed text-ink-400">
-        MY AGENT never collects rent or fees. Do not send money before viewing in
+        My House Plug never collects rent or fees. Do not send money before viewing in
         person and confirming the provider&apos;s identity.
       </p>
     </form>

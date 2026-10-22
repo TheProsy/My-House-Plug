@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/spatial/surface";
 
 export const metadata: Metadata = {
   title: "Support",
-  description: "Get help with MY AGENT — enquiries, inspections, report a listing, or account issues.",
+  description: "Get help with My House Plug — enquiries, inspections, report a listing, or account issues.",
 };
 
 const topics = [
@@ -24,7 +24,7 @@ const topics = [
   },
   {
     title: "Fees and commissions",
-    body: "See the Fees & commissions page for exactly what MY AGENT charges and what we never charge.",
+    body: "See the Fees & commissions page for exactly what My House Plug charges and what we never charge.",
   },
 ];
 
@@ -69,7 +69,7 @@ export default function SupportPage() {
           </a>
         </Button>
         <p className="mt-3 text-xs leading-relaxed text-ink-400">
-          Note: MY AGENT cannot recover money paid outside the platform. If you
+          Note: My House Plug cannot recover money paid outside the platform. If you
           believe you were defrauded, report it to the police and to us — we
           will suspend and investigate the account.{" "}
           <Link href="/report" className="font-medium text-ink-600 underline-offset-4 hover:underline">

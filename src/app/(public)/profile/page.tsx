@@ -19,7 +19,7 @@ import { formatDate, initials } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Profile",
-  description: "Manage your MY AGENT profile and contact details.",
+  description: "Manage your My House Plug profile and contact details.",
 };
 
 const roleLabels: Record<string, string> = {

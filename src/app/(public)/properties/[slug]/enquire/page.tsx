@@ -89,7 +89,7 @@ export default async function EnquirePage({ params }: EnquirePageProps) {
       <div className="mt-6 flex items-start gap-2.5 rounded-2xl border border-brand-200 bg-brand-50 px-4 py-3">
         <ShieldCheck className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden="true" />
         <p className="text-xs leading-relaxed text-brand-800">
-          MY AGENT does not collect rent, deposits, or agency fees. Never pay anyone
+          My House Plug does not collect rent, deposits, or agency fees. Never pay anyone
           before you have inspected the home in person and confirmed who owns or
           manages it.
         </p>

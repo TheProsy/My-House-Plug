@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/spatial/surface";
 
 export const metadata: Metadata = {
   title: "Privacy notice",
-  description: "How MY AGENT collects, uses, and protects your personal data.",
+  description: "How My House Plug collects, uses, and protects your personal data.",
 };
 
 export default function PrivacyPage() {

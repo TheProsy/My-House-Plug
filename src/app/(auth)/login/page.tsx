@@ -55,7 +55,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <LoginForm redirectTo={safeRedirect} />
 
       <p className="border-t border-line-soft pt-4 text-center text-sm text-ink-500">
-        New to MY AGENT?{" "}
+        New to My House Plug?{" "}
         <Link
           href={
             safeRedirect

@@ -3,7 +3,7 @@ import { SectionHeading } from "@/components/spatial/surface";
 
 export const metadata: Metadata = {
   title: "Platform terms",
-  description: "The terms that govern use of MY AGENT.",
+  description: "The terms that govern use of My House Plug.",
 };
 
 export default function TermsPage() {
@@ -12,14 +12,14 @@ export default function TermsPage() {
       <SectionHeading
         eyebrow="Legal"
         title="Platform terms"
-        description="Working draft for the pilot. These terms describe how MY AGENT connects renters and providers."
+        description="Working draft for the pilot. These terms describe how My House Plug connects renters and providers."
       />
 
       <div className="mt-8 space-y-6 text-sm leading-relaxed text-ink-600">
         <section>
-          <h2 className="text-base font-semibold text-ink-900">What MY AGENT is</h2>
+          <h2 className="text-base font-semibold text-ink-900">What My House Plug is</h2>
           <p className="mt-2">
-            MY AGENT is a discovery and connection platform. We publish listings,
+            My House Plug is a discovery and connection platform. We publish listings,
             surface verification labels, and provide tooling for enquiries,
             inspections, and lead tracking. We are not a party to any tenancy
             agreement and we do not collect rent, deposits, or agency fees.

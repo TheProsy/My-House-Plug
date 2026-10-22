@@ -73,7 +73,7 @@ const steps = [
     icon: Handshake,
     title: "Decide with confidence",
     description:
-      "Inspect in person, ask questions, and rent directly with the provider. MY AGENT never holds your rent.",
+      "Inspect in person, ask questions, and rent directly with the provider. My House Plug never holds your rent.",
   },
 ];
 
@@ -256,7 +256,7 @@ export default async function HomePage() {
           </div>
           <p className="mt-4 flex items-start gap-2 rounded-xl border border-warning-100 bg-warning-50 px-4 py-3 text-xs leading-relaxed text-warning-700">
             <BadgeCheck className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-            MY AGENT does not collect rent or act as an escrow. Always inspect the
+            My House Plug does not collect rent or act as an escrow. Always inspect the
             property, confirm the provider&apos;s authority, and pay through
             traceable channels.
           </p>
@@ -294,7 +294,7 @@ export default async function HomePage() {
           </ol>
         </section>
 
-        <section className="grid gap-4 lg:grid-cols-2" aria-label="More ways to use MY AGENT">
+        <section className="grid gap-4 lg:grid-cols-2" aria-label="More ways to use My House Plug">
           <div className="relative overflow-hidden rounded-2xl border border-brand-200 bg-brand-50 p-6 sm:p-8">
             <Sparkles
               className="absolute -right-4 -top-4 size-28 text-brand-200/70"

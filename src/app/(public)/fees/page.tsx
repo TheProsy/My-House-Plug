@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/spatial/surface";
 
 export const metadata: Metadata = {
   title: "Fees & commissions",
-  description: "What MY AGENT charges — and what it never charges — during the pilot.",
+  description: "What My House Plug charges — and what it never charges — during the pilot.",
 };
 
 export default function FeesPage() {
@@ -20,14 +20,14 @@ export default function FeesPage() {
         <div className="rounded-2xl border border-brand-200 bg-brand-50 p-5">
           <Receipt className="size-5 text-brand-700" aria-hidden="true" />
           <h2 className="mt-2 text-sm font-semibold text-brand-950">
-            What renters pay MY AGENT
+            What renters pay My House Plug
           </h2>
           <p className="mt-1 text-2xl font-semibold tracking-tight text-brand-950">
             ₦0
           </p>
           <p className="mt-1 text-sm leading-relaxed text-brand-900/80">
             Searching, saving, enquiries, and inspection requests are free.
-            MY AGENT never collects rent, deposits, or agency fees from renters.
+            My House Plug never collects rent, deposits, or agency fees from renters.
           </p>
         </div>
         <div className="rounded-2xl border border-line-soft bg-surface-2 p-5 shadow-e1">
@@ -51,7 +51,7 @@ export default function FeesPage() {
           Commission arrangements (optional)
         </h2>
         <p className="mt-2 text-sm leading-relaxed text-ink-500">
-          Where a provider and MY AGENT agree to a commission for a successful
+          Where a provider and My House Plug agree to a commission for a successful
           rental, the arrangement is recorded in writing on the platform before
           the deal closes. Both sides can see the terms and the outcome record.
           Commission is paid by the provider — never added silently to a

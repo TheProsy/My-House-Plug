@@ -176,7 +176,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
 
             <p className="mt-3 flex items-start gap-2 rounded-xl bg-surface-1 px-3 py-2.5 text-xs leading-relaxed text-ink-500">
               <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-brand-700" aria-hidden="true" />
-              Never pay before inspecting. MY AGENT does not collect rent,
+              Never pay before inspecting. My House Plug does not collect rent,
               deposits, or agency fees.
             </p>
 
@@ -218,7 +218,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   {listing.provider_name ?? "Provider"}
                 </p>
                 <p className="text-xs text-ink-400">
-                  On MY AGENT since {formatDate(providerSince)}
+                  On My House Plug since {formatDate(providerSince)}
                 </p>
               </div>
             </div>

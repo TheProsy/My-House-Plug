@@ -239,7 +239,7 @@ export function EnquiryDetailView({
           <div className="rounded-2xl border border-line-soft bg-surface-1/60 p-4">
             <p className="flex items-start gap-2 text-xs leading-relaxed text-ink-500">
               <ShieldCheck className="mt-0.5 size-3.5 shrink-0 text-brand-700" aria-hidden="true" />
-              MY AGENT never collects rent or fees. Report anything that feels unsafe
+              My House Plug never collects rent or fees. Report anything that feels unsafe
               from the listing page.
             </p>
             {!closed && (

@@ -10,7 +10,7 @@ import { getSessionUser, isProvider } from "@/features/authentication/queries";
 export const metadata: Metadata = {
   title: "Become a provider",
   description:
-    "Upgrade your MY AGENT account to list and manage properties as a landlord or agent.",
+    "Upgrade your My House Plug account to list and manage properties as a landlord or agent.",
 };
 
 const benefits = [

@@ -51,7 +51,7 @@ export function ReportForm({
         </Alert>
         <p className="mt-4 text-sm leading-relaxed text-ink-500">
           Reports are private. We never tell the provider who reported a listing.
-          Meanwhile, only deal through MY AGENT and never pay before inspecting.
+          Meanwhile, only deal through My House Plug and never pay before inspecting.
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
           <Button asChild>

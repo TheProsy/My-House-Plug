@@ -61,7 +61,7 @@ export function MessageForm({ enquiryId }: { enquiryId: string }) {
 
       <div className="flex items-center justify-between gap-3">
         <p className="text-xs text-ink-400">
-          Keep conversations inside MY AGENT so both sides have a record.
+          Keep conversations inside My House Plug so both sides have a record.
         </p>
         <SubmitButton />
       </div>

@@ -170,7 +170,7 @@ export function CostBreakdown({
 
         <p className="flex items-start gap-2 text-xs leading-relaxed text-ink-400">
           <Info className="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
-          Amounts are supplied by the provider. MY AGENT does not collect rent
+          Amounts are supplied by the provider. My House Plug does not collect rent
           or hold deposits in this version of the platform.
         </p>
       </div>

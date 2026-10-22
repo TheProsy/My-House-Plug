@@ -1,4 +1,4 @@
--- MY AGENT seed data (pilot market: FUTA, Akure)
+-- My House Plug seed data (pilot market: FUTA, Akure)
 -- Demo accounts use password: DemoPass123!
 -- Remove demo accounts and listings before a real public launch.
 
@@ -275,7 +275,7 @@ insert into public.reports (reporter_id, target_type, target_id, reason, details
 values ('33333333-3333-4333-8333-333333333333', 'listing', 'aaaaaaaa-0000-4000-8000-000000000002', 'incorrect_availability', 'Provider said the mini flat has been taken, but the listing still shows as available.', 'medium', 'open');
 
 insert into public.notifications (user_id, type, title, body, href)
-values ('33333333-3333-4333-8333-333333333333', 'system', 'Welcome to MY AGENT', 'Start with a campus search, then save the homes you like.', '/search');
+values ('33333333-3333-4333-8333-333333333333', 'system', 'Welcome to My House Plug', 'Start with a campus search, then save the homes you like.', '/search');
 
 -- Demo enquiry thread: Chiamaka (renter) -> Faith (agent) for the FUTA 1-bedroom.
 insert into public.enquiries (id, property_id, renter_id, provider_id, message, contact_preference, status, lead_stage, created_at, updated_at)

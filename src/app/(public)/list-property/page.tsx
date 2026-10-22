@@ -86,7 +86,7 @@ export default async function ListPropertyPage() {
           Reach renters who are ready to inspect
         </h1>
         <p className="text-pretty text-base leading-relaxed text-ink-600">
-          MY AGENT is built around trust signals students actually check:
+          My House Plug is built around trust signals students actually check:
           known costs, honest verification labels, and fresh availability.
           Listing is free during the pilot.
         </p>
@@ -200,7 +200,7 @@ export default async function ListPropertyPage() {
           </li>
           <li className="flex items-start gap-2">
             <BadgeCheck className="mt-0.5 size-4 shrink-0 text-brand-700" aria-hidden="true" />
-            MY AGENT never collects rent or deposits from renters.
+            My House Plug never collects rent or deposits from renters.
           </li>
         </ul>
         <p className="mt-4 text-xs text-ink-400">

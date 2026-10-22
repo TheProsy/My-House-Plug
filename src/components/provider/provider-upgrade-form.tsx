@@ -104,7 +104,7 @@ export function ProviderUpgradeForm() {
           >
             provider terms
           </Link>
-          . I understand MY AGENT does not collect rent or hold deposits.
+          . I understand My House Plug does not collect rent or hold deposits.
         </span>
       </label>
 

@@ -22,7 +22,7 @@ import { SectionHeading } from "@/components/spatial/surface";
 export const metadata: Metadata = {
   title: "How it works",
   description:
-    "How MY AGENT searches, cost transparency, verification checks, inspections, and safety rules work — explained plainly.",
+    "How My House Plug searches, cost transparency, verification checks, inspections, and safety rules work — explained plainly.",
 };
 
 const verificationChecks = [
@@ -78,10 +78,10 @@ export default function HowItWorksPage() {
           Plain answers, no fine print games
         </Badge>
         <h1 className="text-balance text-3xl font-semibold tracking-tight text-ink-900 sm:text-4xl">
-          How MY AGENT works
+          How My House Plug works
         </h1>
         <p className="text-pretty text-base leading-relaxed text-ink-600">
-          MY AGENT helps you find accommodation around Nigerian campuses with
+          My House Plug helps you find accommodation around Nigerian campuses with
           transparent costs and honest verification labels. We connect you with
           providers — we do not collect rent or act as an escrow.
         </p>
@@ -135,7 +135,7 @@ export default function HowItWorksPage() {
           <Alert variant="warning">
             <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
             <span>
-              MY AGENT does not collect rent, deposits, or agency fees. Pay only
+              My House Plug does not collect rent, deposits, or agency fees. Pay only
               after inspecting, verify the account name you pay to, and keep
               receipts.
             </span>
@@ -220,7 +220,7 @@ export default function HowItWorksPage() {
         <SectionHeading
           eyebrow="Beyond listings"
           title="Roommates and providers"
-          description="Looking to share costs, or have a space to fill? Both live on MY AGENT."
+          description="Looking to share costs, or have a space to fill? Both live on My House Plug."
         />
         <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <div className="rounded-2xl border border-brand-200 bg-brand-50 p-5">

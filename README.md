@@ -1,6 +1,6 @@
-# MY AGENT
+# My House Plug
 
-A Nigeria-first accommodation platform for students and young professionals. MY AGENT helps renters find verified homes near campus, book inspections, compare total move-in costs, and connect with providers — while giving providers and moderators the tools to keep listings trustworthy.
+A Nigeria-first accommodation platform for students and young professionals. My House Plug helps renters find verified homes near campus, book inspections, compare total move-in costs, and connect with providers — while giving providers and moderators the tools to keep listings trustworthy.
 
 Pilot market: FUTA / Akure. The data model is campus-based, so new universities can be added without schema changes.
 

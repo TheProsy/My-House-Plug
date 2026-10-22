@@ -166,7 +166,7 @@ export function RegisterForm({
 
       <fieldset className="space-y-2">
         <legend className="text-sm font-medium text-ink-700">
-          How will you use MY AGENT?
+          How will you use My House Plug?
         </legend>
         <div className="grid gap-2">
           {accountTypes.map((option) => {
@@ -216,7 +216,7 @@ export function RegisterForm({
           <Link href="/privacy" className="font-medium text-ink-700 underline-offset-4 hover:underline">
             privacy notice
           </Link>
-          , and understand that MY AGENT does not collect rent or hold deposits.
+          , and understand that My House Plug does not collect rent or hold deposits.
         </span>
       </label>
 

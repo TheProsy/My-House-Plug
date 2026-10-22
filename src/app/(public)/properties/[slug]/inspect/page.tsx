@@ -96,7 +96,7 @@ export default async function InspectPage({ params }: InspectPageProps) {
       <div className="mt-6 flex items-start gap-2.5 rounded-2xl border border-warning-100 bg-warning-50 px-4 py-3">
         <AlertCircle className="mt-0.5 size-4 shrink-0 text-warning-700" aria-hidden="true" />
         <p className="text-xs leading-relaxed text-warning-700">
-          Inspections are free on MY AGENT. If anyone asks you to pay before a
+          Inspections are free on My House Plug. If anyone asks you to pay before a
           viewing, stop and report the listing — that is a common scam pattern.
         </p>
       </div>

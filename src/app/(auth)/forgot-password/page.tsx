@@ -4,7 +4,7 @@ import { ForgotPasswordForm } from "@/app/(auth)/forgot-password/forgot-password
 
 export const metadata: Metadata = {
   title: "Reset your password",
-  description: "Request a password reset link for your MY AGENT account.",
+  description: "Request a password reset link for your My House Plug account.",
 };
 
 export default function ForgotPasswordPage() {

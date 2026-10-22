@@ -11,7 +11,7 @@ import { getSavedListings, getSavedPropertyIds } from "@/features/saved/queries"
 
 export const metadata: Metadata = {
   title: "Saved homes",
-  description: "Your shortlist of homes across MY AGENT.",
+  description: "Your shortlist of homes across My House Plug.",
 };
 
 export default async function SavedPage() {

@@ -11,7 +11,7 @@ import { safeRedirectPath } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Create an account",
   description:
-    "Create a MY AGENT account to save homes, send enquiries, schedule inspections, or list a property.",
+    "Create a My House Plug account to save homes, send enquiries, schedule inspections, or list a property.",
 };
 
 interface RegisterPageProps {
